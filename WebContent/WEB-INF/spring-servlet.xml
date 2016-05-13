@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+ xmlns:mvc="http://www.springframework.org/schema/mvc"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+ xmlns:context="http://www.springframework.org/schema/context"
+ xsi:schemaLocation="http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+  http://www.springframework.org/schema/context
+  http://www.springframework.org/schema/context/spring-context-3.0.xsd
+  http://www.springframework.org/schema/mvc 
+  http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
+
+ <!-- telling container to take care of annotations stuff -->
+ <context:annotation-config />
+ <mvc:annotation-driven/>
+ <mvc:resources mapping="/css/**" location="/css/"/>
+ <mvc:resources mapping="/bower_components/**" location="/bower_components/"/>
+ <mvc:resources mapping="/fonts/**" location="/fonts/"/>
+ <mvc:resources mapping="/img/**" location="/img/"/>
+ <mvc:resources mapping="/jquery/**" location="/jquery/"/>
+ <mvc:resources mapping="/js/**" location="/js/"/>
+ <mvc:resources mapping="/homepage/**" location="/homepage/"/>
+ <mvc:resources mapping="/login/**" location="/login/"/>
+
+ <!-- declaring base package -->
+ <context:component-scan base-package="com.tmt.logistics.controller" />
+ 
+ <!-- adding view resolver to show jsp's on browser -->
+ <bean id="viewResolver"
+  class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+  <property name="prefix" value="/WEB-INF/jsp/" />
+  <property name="suffix" value=".jsp" />
+ </bean>
+ 
+ <!-- Register the Customer.properties -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="message" />
+	</bean>
+	
+ <!-- declare beans -->
+ <bean id="detachDao" class="com.tmt.logistics.dao.DetachDaoImpl" />
+ <bean id="driverDao" class="com.tmt.logistics.dao.DriverDaoImpl" />
+ <bean id="testTrackerDao" class="com.tmt.logistics.dao.TestTrackerDaoImpl" />
+ <bean id="trackerDao" class="com.tmt.logistics.dao.TrackerDaoImpl" />
+ <bean id="customerDao" class="com.tmt.logistics.dao.CustomerDaoImpl" />
+ <bean id="trackerReportDao" class="com.tmt.logistics.dao.TrackerReportDaoImpl" />
+ <bean id="vehicleReportDao" class="com.tmt.logistics.dao.VehicleReportDaoImpl" />
+ <bean id="customerReportDao" class="com.tmt.logistics.dao.CustomerReportDaoImpl" />
+ <bean id="coordinatesDao" class="com.tmt.logistics.dao.CoordinatesDaoImpl" />
+ <bean id="loginDao" class="com.tmt.logistics.dao.LoginDaoImpl" />
+ <bean id="assignVehicleDao" class="com.tmt.logistics.dao.AssignVehicleDaoImpl" />
+ <bean id="createLoginDao" class="com.tmt.logistics.dao.CreateLoginDaoImpl" />
+ <bean id="loginReportDao" class="com.tmt.logistics.dao.LoginReportDaoImpl" />
+ <bean id="vehicleDao" class="com.tmt.logistics.dao.VehicleDaoImpl" />
+ <bean id="linkClientDao" class="com.tmt.logistics.dao.LinkClientDaoImpl" />
+ <bean id="trackerConfigureDao" class="com.tmt.logistics.dao.TrackerConfigureDaoImpl" />
+ <bean id="trackCustomerDao" class="com.tmt.logistics.dao.TrackCustomerDaoImpl" />
+ <bean id="agentDao" class="com.tmt.logistics.dao.AgentDaoImpl" />
+ <bean id="homePageDao" class="com.tmt.logistics.dao.HomePageDaoImpl" />
+ <bean id="vehicleSearchDao" class="com.tmt.logistics.dao.VehicleSearchDaoImpl" />
+  
+ <!-- declare datasource bean -->
+ <bean id="dataSource"
+  class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+  <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+  <property name="url" value="jdbc:mysql://49.50.78.232:3306/trackerdata" />
+  <property name="username" value="root" />
+  <property name="password" value="Cmtrack123" />
+ </bean>
+   
+ <bean id="myhttprequesthandler" class="com.tmt.logistics.LoginServlet">
+        <property name="loginDao" ref="loginDao"/>
+ </bean>
+ 
+</beans>
