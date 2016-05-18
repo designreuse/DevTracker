@@ -1,9 +1,15 @@
 package com.tmt.logistics.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.tmt.common.DataField;
 import com.tmt.common.Utils;
 import com.tmt.logistics.bean.CreateLogin;
@@ -28,17 +36,17 @@ public class CreateLoginController {
 	public ModelAndView getConnectTrackerScreen(@ModelAttribute CreateLogin createLogin) {			
 		   
 			Map<String, List<String>> map = new HashMap<String, List<String>>();
-			map.put("roles", Arrays.asList("Owner", "Broker", "Office Assistant", "Fitter"));		
+			map.put("roles", Arrays.asList("Owner", "Broker", "Office Assistant", "Fitter"));			
 			return new ModelAndView("CreateLogin", "map", map);
 		}
 
 	@RequestMapping(value = "/InsertCreateLogin", method = RequestMethod.POST)
 	public ModelAndView insertCreateLoginData(@ModelAttribute CreateLogin createLogin) {
-		try {
+		/*try {
 			Utils.trimReflective(createLogin);
 		} catch (Exception e) {
 			System.out.println("Error Occurs");
-		}
+		}*/
 		System.out.println(createLogin.getUserName()+" ======> "+createLogin.getPassword()+"    =========>  "+createLogin.getConfirmPassword());
 		   createLogin.setRole_id(DataField.valueOf(createLogin.getRole().toLowerCase().replaceAll(" ", "")).toString());
 		   System.out.println("======> "+ Utils.showBean(createLogin, true));
@@ -60,9 +68,11 @@ public class CreateLoginController {
 	@RequestMapping("/confirmCreateLogin")
 	public ModelAndView getConfirmScreen(@ModelAttribute CreateLogin createLogin) {		
 		int isExists = createLoginDao.isLoginExists(createLogin);
+		int isUserExists = createLoginDao.isUserExists(createLogin.getUserName().toLowerCase());
 		ResultBean resultMsg = new ResultBean();
-			if(isExists == 1){
-					resultMsg.setErrorMessage("Login already exists!");
+			if(isExists == 1 || isUserExists == 1){
+				    String errMsg = isUserExists == 1 ? "Username already exists!" : "Login already exists!";
+					resultMsg.setErrorMessage(errMsg);
 					resultMsg.setShowResult("0");	
 					resultMsg.setPageUrl("/DevTracker/CreateLogin");
 					return new ModelAndView("ResultPage", "resultMsg", resultMsg);

@@ -12,6 +12,7 @@ public class CustomerReportDetail {
 	private String ownerName;
 	private String brokerName;
 	private String status;
+	private String phone;
 	private String map_status;
 	private String broker_parent_id;
 	
@@ -109,6 +110,14 @@ public class CustomerReportDetail {
 
 	public void setBroker_parent_id(String broker_parent_id) {
 		this.broker_parent_id = broker_parent_id;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	

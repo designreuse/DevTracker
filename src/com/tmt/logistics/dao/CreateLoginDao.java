@@ -11,5 +11,5 @@ public interface CreateLoginDao {
 	public List<String> getCustomerList();
 	public int insertLoginData(CreateLogin createLogin);
 	public int isLoginExists(CreateLogin createLogin);
-	
+	public int isUserExists(String username);
 }

@@ -6,29 +6,10 @@
     <title>C M T</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-	<link id="bs-css" href="css/bootstrap-cerulean.min.css" rel="stylesheet">
-    <link href="css/charisma-app.css" rel="stylesheet">
-    <link href='bower_components/fullcalendar/dist/fullcalendar.css' rel='stylesheet'>
-    <link href='bower_components/fullcalendar/dist/fullcalendar.print.css' rel='stylesheet' media='print'>
-    <link href='bower_components/chosen/chosen.min.css' rel='stylesheet'>
-    <link href='bower_components/colorbox/example3/colorbox.css' rel='stylesheet'>
-    <link href='bower_components/responsive-tables/responsive-tables.css' rel='stylesheet'>
-    <link href='bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css' rel='stylesheet'>
-    <link href='css/jquery.noty.css' rel='stylesheet'>
-    <link href='css/noty_theme_default.css' rel='stylesheet'>
-    <link href='css/elfinder.min.css' rel='stylesheet'>
-    <link href='css/elfinder.theme.css' rel='stylesheet'>
-    <link href='css/jquery.iphone.toggle.css' rel='stylesheet'>
-    <link href='css/uploadify.css' rel='stylesheet'>
-    <link href='css/animate.min.css' rel='stylesheet'>
-	
+<%@include file="CommonRepo.jsp" %>
     <!-- jQuery -->
     <script src="bower_components/jquery/jquery.min.js"></script>
 
-
-
-
-<script src="https://maps.googleapis.com/maps/api/js??sensor=false"></script>
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -114,7 +95,7 @@ $(document).ready(function(){
                   
                     <ul class="nav nav-pills nav-stacked main-menu">
                        
-                       <li style="margin-left:0px;padding-top:9px;"><a class="ajax-link" href="startup"><i class=" glyphicon glyphicon-eye-open"></i><span> Return Home</span></a></li>  
+                       <li style="margin-left:0px;padding-top:9px;"><a class="ajax-link" href="startup"><i class=" glyphicon"></i><span> Return Home</span></a></li>  
                        
                         
                        </ul>
@@ -147,11 +128,6 @@ $(document).ready(function(){
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
                 <h2><i class="glyphicon"></i> Pay for Play</h2>
-
-                <div class="box-icon">
-                    <a href="#" class="btn btn-minimize btn-round btn-default"><i
-                            class="glyphicon"></i></a>
-                </div>
             </div>
             <div class="box-content">
                 <div class="box-content">
@@ -161,29 +137,40 @@ $(document).ready(function(){
         
          <div class="form-group">
             <label for="vehicleNumber" class="control-label col-xs-2"> Vehicle Number </label>
-            <div class="col-xs-3">
-                <form:input path="vehicleNumber" type="vehicleNumber" class="form-control" id="vehicleNumber" maxlength="12" placeholder="Enter Vehicle Number"/>
+            <div class="col-xs-3" style="width:28.5%">
+               
+            <form:select path="vehicleNumber" id="selectError2" data-rel="chosen" >
+                      
+                      <form:option value="DISABLED" label="----------- Select ------------"/>
+                       <form:options items="${map.vehicleNum}" />
+                       </form:select>
+                       <form:errors path="vehicleNumber" cssClass="error" id="ajaxResponse"/>
+           
+           
             </div>
         </div>
         
         </br>
         <div class="form-group">
             <label for="invoiceNumber" class="control-label col-xs-2"> Invoice Number </label>
-            <div class="col-xs-3">
-                <form:input path="invoiceNumber" type="invoiceNumber" class="form-control" id="invoiceNumber" placeholder="Enter Invoice Number"/>
+            <div class="col-xs-3 input-group " style="margin-left: 43.5%;">
+            	<form:input path="compAbbrv" type="text" maxlength="5" class="form-control capsText" placeholder="Abbrv" style="width:99%"/>
+            	<span class="input-group-addon" style="border-left: 0; border-right: 0;">-</span>
+                <form:input path="invoiceNumber" type="invoiceNumber" class="form-control" id="invoiceNumber" placeholder="Number"/>
+            	
             </div>
         </div>
         <br>
         <div class="form-group">
             <label for="fromAddress" class="control-label col-xs-2"> From Address</label>
-            <div class="col-xs-3">
+            <div class="col-xs-3" style="width:28.5%">
                 <form:input path="fromAddress" type="fromAddress" class="form-control" id="fromAddress" placeholder="Search From Address"/>
             </div>
         </div>
         <br>
         <div class="form-group">
             <label for="toAddress" class="control-label col-xs-2">To Address </label>
-            <div class="col-xs-3">
+            <div class="col-xs-3" style="width:28.5%">
                    <form:input path="toAddress" type="toAddress" class="form-control" id="toAddress" placeholder="Search To Address"/>
             </div>
         </div>

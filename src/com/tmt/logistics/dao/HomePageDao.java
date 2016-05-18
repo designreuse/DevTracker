@@ -12,5 +12,7 @@ public interface HomePageDao {
 	public JSONArray retrieveCoordinates(Invoice invoiceData);
 	
 	public void insertPlayForPayData (PlayForPay playForPay);
+	
+	public int isInvoiceExists(PlayForPay playForPay);
 
 }

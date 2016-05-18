@@ -16,7 +16,7 @@ public class LoginReportDaoImpl implements LoginReportDao {
 	DataSource dataSource;
 
 	public List<LoginReportDetail> retrieveLoginData() {
-		String sql = "select username, password, phone, status from login;";		
+		String sql = "select username, password, phone, status, role_id from login;";		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		List<LoginReportDetail> loginReportList  = jdbcTemplate.query(sql, new BeanPropertyRowMapper(LoginReportDetail.class));	
 		return loginReportList;

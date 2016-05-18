@@ -6,6 +6,7 @@ public class LoginReportDetail {
 	private String password;
 	private String phone;
 	private String status;
+	private String role_id;
 
 	public String getStatus() {
 		return status;
@@ -37,5 +38,13 @@ public class LoginReportDetail {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public String getRole_id() {
+		return role_id;
+	}
+
+	public void setRole_id(String role_id) {
+		this.role_id = role_id;
 	}
 }

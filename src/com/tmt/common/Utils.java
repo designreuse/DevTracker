@@ -6,6 +6,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +15,8 @@ import java.util.Random;
 import java.util.Set;
 
 public class Utils {
+	
+	public static final String SEPARATOR = " ";
 
 	public static String showBean(Object bean, boolean showNulls) {
 		if (bean == null)
@@ -50,7 +53,7 @@ public class Utils {
 	private static String parent_id;
 		
 	public static void main(String... arg) {
-		System.out.println(DataField.valueOf("fileSystemName"));
+		System.out.println(getDateTime());
 	}
 
 	public static String getParent_id() {
@@ -63,9 +66,27 @@ public class Utils {
 
 	
 	public static String getDateTime(){
-		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-M-dd");
 		Date date = new Date();	
 		return dateFormat.format(date);
+	}
+	
+	public static String getSysTime(){
+		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+		Date date = new Date();	
+		return dateFormat.format(date);
+	}
+	
+	public static String getCombinedDateTime(){
+		String dateAndTime = getDateTime() +SEPARATOR+ getSysTime();
+		return dateAndTime;
+	}
+	
+	public static String getYesterdayDateString(){		
+		    DateFormat dateFormat = new SimpleDateFormat("yyyy-M-dd");
+	        Calendar cal = Calendar.getInstance();
+	        cal.add(Calendar.DATE, -1);    
+	        return dateFormat.format(cal.getTime());
 	}
 	
 	

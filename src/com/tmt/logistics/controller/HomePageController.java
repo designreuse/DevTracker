@@ -87,9 +87,17 @@ public class HomePageController {
 		String imeiNumber = agentDao.retrieveIMEINumber(payForPlay.getVehicleNumber());	 
 		System.out.println("Imei Number :::: "+imeiNumber);
 		
+		int invoice_count = homePageDao.isInvoiceExists(payForPlay);
+		System.out.println("======================> "+invoice_count);
 		if(imeiNumber == null){
 			ResultBean resultMsg = new ResultBean();
-			resultMsg.setErrorMessage("Vehicle Number "+payForPlay.getVehicleNumber()+" is not available to be tracked. Check your vehicle number!");
+			resultMsg.setErrorMessage("Vehicle Number "+payForPlay.getCompAbbrv().toUpperCase()+"-"+payForPlay.getVehicleNumber()+" is not available to be tracked. Check your vehicle number!");
+			resultMsg.setShowResult("0");
+			resultMsg.setPageUrl("/DevTracker/payForPlay");
+			return new ModelAndView("ResultPage", "resultMsg", resultMsg);
+		}else if(invoice_count > 0){
+			ResultBean resultMsg = new ResultBean();
+			resultMsg.setErrorMessage("Invoice number "+payForPlay.getCompAbbrv().toUpperCase()+"-"+payForPlay.getInvoiceNumber()+" already exists!");
 			resultMsg.setShowResult("0");
 			resultMsg.setPageUrl("/DevTracker/payForPlay");
 			return new ModelAndView("ResultPage", "resultMsg", resultMsg);
@@ -102,6 +110,7 @@ public class HomePageController {
 			System.out.println("===To===> "+toAddress);
 			System.out.println("totalDistance::: "+distance);
 			payForPlay.setDistance(distance);
+			payForPlay.setInvoiceNumber(payForPlay.getCompAbbrv().toUpperCase()+"-"+payForPlay.getInvoiceNumber());
 			return new ModelAndView("ConfirmPayForPlay", "payForPlay", payForPlay);
 		}
 	}

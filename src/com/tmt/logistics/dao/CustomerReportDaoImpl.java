@@ -31,7 +31,7 @@ public class CustomerReportDaoImpl implements CustomerReportDao {
 	}
 	
 	public List<CustomerReportDetail> retrieveLoginData() {
-		String sqlLogin = "select handler_id, parent_id, role_id, username from login;";		
+		String sqlLogin = "select handler_id, parent_id, role_id, username, status, phone from login;";		
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		List<CustomerReportDetail> loginReportList  = jdbcTemplate.query(sqlLogin, new BeanPropertyRowMapper(CustomerReportDetail.class));		
 		return loginReportList;
@@ -47,7 +47,19 @@ public class CustomerReportDaoImpl implements CustomerReportDao {
 	@Override
 	public void updateVehicleDisassociation(CustomerReportDetail custReportVehicle) {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		String sql = "UPDATE vehicle_connector set map_status = 'N', role_id = ?, parent_id = ?, broker_parent_id='0' where vehicle_number = ?";
+		String sql = "UPDATE vehicle_connector set map_status = 'N', role_id = ?, parent_id = ?, broker_parent_id='0', imei='0' where vehicle_number = ?";
 		jdbcTemplate.update(sql,new Object[] {custReportVehicle.getRole_id(), custReportVehicle.getParent_id(), custReportVehicle.getVehicle_number()});
+	}
+	
+	@Override
+	public void updateBrokerDisassociation(CustomerReportDetail custReportVehicle) {
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String sql = "UPDATE login set parent_id = ? where phone = ?";
+		jdbcTemplate.update(sql,new Object[] {custReportVehicle.getParent_id(), custReportVehicle.getPhone()});
+		
+		String sql1 = "UPDATE vehicle_connector set broker_parent_id='0' where vehicle_number = ?";
+		jdbcTemplate.update(sql1,new Object[] {custReportVehicle.getVehicle_number()});
+		
+		
 	}
 }

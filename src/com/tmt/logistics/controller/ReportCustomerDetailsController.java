@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.tmt.common.Utils;
 import com.tmt.logistics.bean.AssignVehicle;
 import com.tmt.logistics.bean.CustomerReportDetail;
 import com.tmt.logistics.dao.CustomerReportDao;
@@ -62,7 +63,7 @@ public class ReportCustomerDetailsController{
 			else if(customerFlag)
 				mapObject.put(customerData.getHandler_id(), customerData.getParent_id()+"#"+customerData.getCustomerName());	
 			else if(loginFlag)
-				mapObject.put(customerData.getHandler_id(), customerData.getParent_id()+"#"+customerData.getUsername()+"#"+customerData.getRole_id());
+				mapObject.put(customerData.getHandler_id(), customerData.getParent_id()+"#"+customerData.getUsername()+"#"+customerData.getRole_id()+"#"+customerData.getStatus()+"#"+customerData.getPhone());
 			else if(driverFlag)
 				mapObject.put(customerData.getVehicle_number(), customerData.getDriverName());
 		}
@@ -138,14 +139,17 @@ public class ReportCustomerDetailsController{
 		String login_parent_id   = loginDetailsValue[0];
 		String login_user_name   = loginDetailsValue[1];
 		int login_role_id     = Integer.parseInt(loginDetailsValue[2]);
-		//System.out.println(login_user_name+" ***********"+login_role_id+"***************** "+login_parent_id);
 		if(login_role_id == 3){
 			custReportData.setBrokerName(login_user_name);
-			//System.out.println(login_user_name+" -------------------> "+broker_parent_id);
+			custReportData.setPhone(loginDetailsValue[4]);
+			
 			tokenBean = getTokenBean(loginDetails, parent_id);						
-			custReportData.setOwnerName(tokenBean.getUser_name());				
+			custReportData.setOwnerName(tokenBean.getUser_name());	
+			
+			
 			tokenBean = getTokenBean(loginDetails, tokenBean.getParent_id());						
 			custReportData.setUsername(tokenBean.getUser_name());
+			
 		}else if(login_role_id == 2){
 			custReportData.setOwnerName(login_user_name);						
 			tokenBean = getTokenBean(loginDetails, login_parent_id);						
@@ -164,17 +168,19 @@ public class ReportCustomerDetailsController{
 	private TokenBean getTokenBean(Map<String, String> loginDetails, String parent_id){
 		TokenBean tokenBean = new TokenBean();
 		String[] retOwnerValue = loginDetails.get(parent_id).split("#");
-		//System.out.println(retOwnerValue[0]+" ================================ "+retOwnerValue[1]);
 		tokenBean.setParent_id(retOwnerValue[0]);
 		tokenBean.setUser_name(retOwnerValue[1]);
+		tokenBean.setStatus(retOwnerValue[3]);
+		tokenBean.setPhone(retOwnerValue[4]);
 		return tokenBean;
 	}
-	
-	
+		
 	public class TokenBean{
 		private String parent_id;
 		private String user_name;
 		private int role_id;
+		private String status;
+		private String phone;
 		
 		public String getParent_id() {
 			return parent_id;
@@ -193,18 +199,43 @@ public class ReportCustomerDetailsController{
 		}
 		public void setRole_id(int role_id) {
 			this.role_id = role_id;
-		}		
+		}
+		public String getStatus() {
+			return status;
+		}
+		public void setStatus(String status) {
+			this.status = status;
+		}
+		public String getPhone() {
+			return phone;
+		}
+		public void setPhone(String phone) {
+			this.phone = phone;
+		}	
 	}
 	
 	
 	@RequestMapping("/disassociateVehicle")	
-	public void getConnectTrackerScreen(@ModelAttribute CustomerReportDetail custReportVehicle, HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {			
+	public void dissociateVehicle(@ModelAttribute CustomerReportDetail custReportVehicle, HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {			
 		String dataString = request.getParameter("dataString").trim();
 		String[] splitToken = dataString.split("#");
 		custReportVehicle.setVehicle_number(splitToken[0]);
 		custReportVehicle.setRole_id(splitToken[1]);
 		custReportVehicle.setParent_id(splitToken[2]);
 		customerReportDao.updateVehicleDisassociation(custReportVehicle);	
+		updatePrinterObject(response);	
+		}
+	
+	@RequestMapping("/disassociateBroker")	
+	public void disassociateBroker(@ModelAttribute CustomerReportDetail custReportVehicle, HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {			
+		String dataString = request.getParameter("dataString").trim();
+		System.out.println("*********************** "+dataString);
+		String[] splitToken = dataString.split("#");
+		custReportVehicle.setPhone(splitToken[0]);
+		//custReportVehicle.setRole_id(splitToken[1]);
+		custReportVehicle.setParent_id(splitToken[1]);
+		custReportVehicle.setVehicle_number(splitToken[2]);
+		customerReportDao.updateBrokerDisassociation(custReportVehicle);	
 		updatePrinterObject(response);	
 		}
 	

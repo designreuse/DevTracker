@@ -46,5 +46,14 @@ public class CreateLoginDaoImpl implements CreateLoginDao {
 		return result;
 	}
 	
+	@Override
+	public int isUserExists(String username) {
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);		
+		String sql = "select count(username) from login where username='"+username+"'";
+		int result = jdbcTemplate.queryForObject(sql, Integer.class);
+		System.out.println("RESULT_USERNAME_COUNT :::::: "+result);
+		return result;
+	}
+	
 
 }

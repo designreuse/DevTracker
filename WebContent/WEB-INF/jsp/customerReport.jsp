@@ -7,29 +7,10 @@
     <title>C M T</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-	<link id="bs-css" href="css/bootstrap-cerulean.min.css" rel="stylesheet">
-    <link href="css/charisma-app.css" rel="stylesheet">
-    <link href='bower_components/fullcalendar/dist/fullcalendar.css' rel='stylesheet'>
-    <link href='bower_components/fullcalendar/dist/fullcalendar.print.css' rel='stylesheet' media='print'>
-    <link href='bower_components/chosen/chosen.min.css' rel='stylesheet'>
-    <link href='bower_components/colorbox/example3/colorbox.css' rel='stylesheet'>
-    <link href='bower_components/responsive-tables/responsive-tables.css' rel='stylesheet'>
-    <link href='bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css' rel='stylesheet'>
-    <link href='css/jquery.noty.css' rel='stylesheet'>
-    <link href='css/noty_theme_default.css' rel='stylesheet'>
-    <link href='css/elfinder.min.css' rel='stylesheet'>
-    <link href='css/elfinder.theme.css' rel='stylesheet'>
-    <link href='css/jquery.iphone.toggle.css' rel='stylesheet'>
-    <link href='css/uploadify.css' rel='stylesheet'>
-    <link href='css/animate.min.css' rel='stylesheet'>
-	
+<%@include file="CommonRepo.jsp" %>
     <!-- jQuery -->
     <script src="bower_components/jquery/jquery.min.js"></script>
 
-
-
-
-<script src="https://maps.googleapis.com/maps/api/js??sensor=false"></script>
     
     <!-- The fav icon -->
     <link rel="shortcut icon" href="img/favicon.ico">
@@ -57,31 +38,56 @@
 
  $(document).ready(function() {	 
 	 $('button').on('click', function() {
-		 if(this.id != ''){
-		 var confrm = confirm("Dis-associate mapping with this vehicle "+this.id);
-		 if(confrm == true){			 
-			 dataString = "dataString=" + this.id+"#"+${role_id}+"#"+${handler_id};	
-			   $.ajax({
-			        type: "POST",
-			        url: "disassociateVehicle",
-			        data: dataString,
-		            dataType: "json",
-		            //if received a response from the server
-		            success: function( data, textStatus, jqXHR) {
-		                //our country code was correct so we have some information to display
-		                 if(data.success){  
-		                	document.location.href='/DevTracker/customerReport';
-		                 } 
-		                 //display error message
-		                 else {
-		                     $("#ajaxResponse").html("<div><b>Invalid Vehicle Number!</b></div>");
-		                 }
-		            }
-				   
-		   }); 
-			 
-		 }		
-	 }
+		 var getTokens  = this.id.split('_'); 		 
+		 if(this.id != ''){			 
+			 if(getTokens[0].match("^veh")){			
+				 var confrm = confirm("Remove mapping with this vehicle "+getTokens[1]);
+				 if(confrm == true){			 
+					 dataString = "dataString=" + getTokens[1]+"#"+${role_id}+"#"+${handler_id};	
+					   $.ajax({
+					        type: "POST",
+					        url: "disassociateVehicle",
+					        data: dataString,
+				            dataType: "json",
+				            //if received a response from the server
+				            success: function( data, textStatus, jqXHR) {
+				                //our country code was correct so we have some information to display
+				                 if(data.success){  
+				                	document.location.href='/DevTracker/customerReport';
+				                 } 
+				                 //display error message
+				                 else {
+				                     $("#ajaxResponse").html("<div><b>Invalid Vehicle Number!</b></div>");
+				                 }
+				            }
+						   
+				   });
+				 }		
+			 }else{
+				 var confrm = confirm("Remove mapping with this broker ");
+				 if(confrm == true){			 
+					 dataString = "dataString=" + getTokens[1]+"#"+${handler_id}+"#"+getTokens[2];	
+					   $.ajax({
+					        type: "POST",
+					        url: "disassociateBroker",
+					        data: dataString,
+				            dataType: "json",
+				            //if received a response from the server
+				            success: function( data, textStatus, jqXHR) {
+				                //our country code was correct so we have some information to display
+				                 if(data.success){  
+				                	document.location.href='/DevTracker/customerReport';
+				                 } 
+				                 //display error message
+				                 else {
+				                     $("#ajaxResponse").html("<div><b>Invalid Vehicle Number!</b></div>");
+				                 }
+				            }
+						   
+				   });
+				 } 
+			 }
+			 }
 	 });
 }); 
 
@@ -150,10 +156,15 @@
         <td class="center">${customerReportDetailList.ownerName}</td>
         <td class="center">${customerReportDetailList.brokerName}</td>      
         <td class="center">${customerReportDetailList.username}</td>        
-        <td class="center">            
+        <td class="col-md-4">            
             <c:if test="${customerReportDetailList.map_status == 'Y'}">
-            <button class="btn btn-danger" id="${customerReportDetailList.vehicle_number}">
-                Disassociate
+            <button class="btn btn-danger" id="veh_${customerReportDetailList.vehicle_number}">
+                Remove Vehicle
+            </button>
+            </c:if>
+            <c:if test="${customerReportDetailList.brokerName != null}">
+            <button class="btn btn-danger" id="bro_${customerReportDetailList.phone}_${customerReportDetailList.vehicle_number}">
+                Remove Broker
             </button>
             </c:if>
         </td>
@@ -165,7 +176,6 @@
     </div>
     </div>
     <!--/span-->
-      
     </div><!--/row-->
 
   

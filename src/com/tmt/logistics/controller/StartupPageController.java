@@ -4,6 +4,9 @@ package com.tmt.logistics.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -36,8 +39,13 @@ public class StartupPageController {
 	
 	@RequestMapping("/payForPlay")
 	public ModelAndView payForPlay(Model playForPay) {
-		playForPay.addAttribute("PlayForPay", new PlayForPay());		
-		return new ModelAndView("PayforPlay", "map", null);
+		playForPay.addAttribute("PlayForPay", new PlayForPay());
+		
+		 Map<String, List> map = new HashMap<String, List>();	    
+		 List<String> vehicleNumList = coordinatesDao.retrieveVehicleNumbersList();
+		 map.put("vehicleNum", vehicleNumList);
+		
+		return new ModelAndView("PayforPlay", "map", map);
 	}
 
 	@RequestMapping("/showmap")

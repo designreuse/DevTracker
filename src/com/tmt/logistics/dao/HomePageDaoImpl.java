@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.tmt.common.Utils;
 import com.tmt.logistics.bean.Coordinates;
+import com.tmt.logistics.bean.CreateLogin;
 import com.tmt.logistics.bean.Invoice;
 import com.tmt.logistics.bean.PlayForPay;
 
@@ -24,7 +25,7 @@ public class HomePageDaoImpl implements HomePageDao {
 
 	public Invoice retrieveInvoiceDetails(String invoiceNumber) {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);		
-		String invoiceSql = "SELECT vehicle_number, invoice_number, from_address, start_time, to_address, parent_id, imei from invoice where invoice_number = "+invoiceNumber;
+		String invoiceSql = "SELECT vehicle_number, invoice_number, from_address, start_time, to_address, parent_id, imei from invoice where invoice_number = '"+invoiceNumber+"'";
 		Invoice invoiceData;
 		try {
 			invoiceData = (Invoice)jdbcTemplate.queryForObject(invoiceSql, new BeanPropertyRowMapper(Invoice.class));
@@ -33,14 +34,14 @@ public class HomePageDaoImpl implements HomePageDao {
 		}
 		return invoiceData;
 	}
-
+	
 	@Override
 	public JSONArray retrieveCoordinates(Invoice invoiceData) {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);	
-		System.out.println("IMEI::::: "+invoiceData.getImei());
-		String sqlCoordinates = "select distinct latitude, longitude, address from coordinates where imei='"+invoiceData.getImei()+"' and STR_TO_DATE(`datet`, '%d-%m-%Y') BETWEEN STR_TO_DATE('"+invoiceData.getStart_time()+"', '%d-%m-%Y') AND STR_TO_DATE('"+Utils.getDateTime()+"', '%d-%m-%Y') group by address order by id;";
+		//System.out.println("IMEI::::: "+invoiceData.getImei());
+		String sqlCoordinates = "select distinct latitude, longitude, address from coordinates where imei='"+invoiceData.getImei()+"' and CONCAT_WS(' ', dateTime) between '"+invoiceData.getStart_time()+" 00:00:00' AND '"+Utils.getDateTime()+" 23:59:59' order by dateTime asc;";
 		
-		System.out.println("--------> "+sqlCoordinates);
+		System.out.println(" --------> "+sqlCoordinates);
 		List<Coordinates> coordinatesList  = jdbcTemplate.query(sqlCoordinates, new BeanPropertyRowMapper(Coordinates.class));	
 		
 		System.out.println("--------> "+coordinatesList.size());
@@ -48,7 +49,7 @@ public class HomePageDaoImpl implements HomePageDao {
 		JSONArray myArray = new JSONArray();
 		
 		myArray.addAll(coordinatesList);
-		System.out.println(myArray.toString());
+		//System.out.println(myArray.toString());
 		
 		return myArray;
 	}
@@ -62,6 +63,15 @@ public class HomePageDaoImpl implements HomePageDao {
 					sql,
 					new Object[] {playForPay.getVehicleNumber(), playForPay.getInvoiceNumber(), playForPay.getFromAddress(), Utils.getDateTime(), playForPay.getToAddress(), playForPay.getImeiNumber(), playForPay.getFromAddressLatitude()+","+playForPay.getFromAddressLongitude(), playForPay.getToAddressLatitude()+","+playForPay.getToAddressLongitude(),playForPay.getDistance()});
 		
+	}
+	
+	@Override
+	public int isInvoiceExists(PlayForPay playForPay) {
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);		
+		String sql = "select count(invoice_number) from invoice where invoice_number='"+playForPay.getCompAbbrv()+"-"+playForPay.getInvoiceNumber()+"'";
+		int result = jdbcTemplate.queryForObject(sql, Integer.class);
+		System.out.println("INVOICE_NUMBER_COUNT :::::: "+result);
+		return result;
 	}
 	
 }

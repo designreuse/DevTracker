@@ -11,4 +11,5 @@ public interface CustomerReportDao {
 	public List<CustomerReportDetail> retrieveLoginData();
 	public List<CustomerReportDetail> retrieveDriverData();
 	public void updateVehicleDisassociation(CustomerReportDetail custReportVehicle);
+	public void updateBrokerDisassociation(CustomerReportDetail custReportVehicle);
 }

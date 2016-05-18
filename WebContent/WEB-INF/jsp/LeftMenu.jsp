@@ -22,7 +22,7 @@
                         <c:if test="${role_id == 1 || role_id == 4 }">
                         <li><a class="ajax-link" href="driverDetails"><i class="glyphicon"></i><span> Driver Details</span></a></li>
                         </c:if>
-                        <c:if test="${role_id == 1 }">
+                        <c:if test="${role_id == 1 || role_id == 2}">
                         <li><a class="ajax-link" href="customerReport"><i class="glyphicon"></i><span> Client Report</span></a></li>
                         </c:if>
                         <c:if test="${role_id == 1 }">
@@ -47,7 +47,9 @@
                         </c:if>
                         <c:if test="${role_id == 1 || role_id == 3 ||  role_id == 4}">
                         <li><a class="ajax-link" href="vehicleSearch"><i class="glyphicon"></i><span> Search Vehicle</span></a></li>      
+                        <!-- <li><a class="ajax-link" href="configureAssociation"><i class="glyphicon"></i><span> Configure Association</span></a></li>   -->    
                         </c:if>
+                        <li><a class="ajax-link" href="liveTrack"><i class="glyphicon"></i><span> Live Tracking</span></a></li>   
                         
                         <c:if test="${role_id == 2}">
                         <li><a class="ajax-link" href="vehicleSearch"><i class="glyphicon"></i><span> Search Vehicle</span></a></li>   

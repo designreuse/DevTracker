@@ -6,36 +6,11 @@
     <title>C M T</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-	<link id="bs-css" href="css/bootstrap-cerulean.min.css" rel="stylesheet">
-    <link href="css/charisma-app.css" rel="stylesheet">
-    <link href='bower_components/fullcalendar/dist/fullcalendar.css' rel='stylesheet'>
-    <link href='bower_components/fullcalendar/dist/fullcalendar.print.css' rel='stylesheet' media='print'>
-    <link href='bower_components/chosen/chosen.min.css' rel='stylesheet'>
-    <link href='bower_components/colorbox/example3/colorbox.css' rel='stylesheet'>
-    <link href='bower_components/responsive-tables/responsive-tables.css' rel='stylesheet'>
-    <link href='bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css' rel='stylesheet'>
-    <link href='css/jquery.noty.css' rel='stylesheet'>
-    <link href='css/noty_theme_default.css' rel='stylesheet'>
-    <link href='css/elfinder.min.css' rel='stylesheet'>
-    <link href='css/elfinder.theme.css' rel='stylesheet'>
-    <link href='css/jquery.iphone.toggle.css' rel='stylesheet'>
-    <link href='css/uploadify.css' rel='stylesheet'>
-    <link href='css/animate.min.css' rel='stylesheet'>
-	
+	<%@include file="CommonRepo.jsp" %>
     <!-- jQuery -->
     <script src="bower_components/jquery/jquery.min.js"></script>
 
 
-
-
-<script src="https://maps.googleapis.com/maps/api/js??sensor=false"></script>
-
-<script type="text/javascript">
-$(document).ready(function(){
-	
-    
-    });
-</script>   
     <!-- The fav icon -->
     <link rel="shortcut icon" href="img/favicon.ico">
     
@@ -87,7 +62,7 @@ $(document).ready(function(){
                   
                     <ul class="nav nav-pills nav-stacked main-menu">
                        
-                       <li style="margin-left:0px;padding-top:9px;"><a class="ajax-link" href="startup"><i class=" glyphicon glyphicon-eye-open"></i><span> Return Home</span></a></li>  
+                       <li style="margin-left:0px;padding-top:9px;"><a class="ajax-link" href="startup"><i class=" glyphicon"></i><span> Return Home</span></a></li>  
                        
                         
                        </ul>
@@ -128,7 +103,7 @@ $(document).ready(function(){
                             <label  class="control-label"> Vehicle Number </label>
                         </td>
                         <td>
-                            <code>${payForPlay.vehicleNumber}</code>
+                            <code class="capsText">${payForPlay.vehicleNumber}</code>
                         </td>
                     </tr>
                     <tr>
@@ -136,7 +111,7 @@ $(document).ready(function(){
                             <label  class="control-label "> Invoice Number  </label> 
                         </td>
                         <td>
-                           <code> ${payForPlay.invoiceNumber}</code>
+                           <code>${payForPlay.invoiceNumber}</code>
                         </td>
                     </tr>
                     <tr>

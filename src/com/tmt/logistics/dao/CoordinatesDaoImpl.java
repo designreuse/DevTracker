@@ -3,6 +3,7 @@ package com.tmt.logistics.dao;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -60,6 +61,15 @@ public class CoordinatesDaoImpl implements CoordinatesDao {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		int getCount = jdbcTemplate.queryForObject(sql, Integer.class);
 		return getCount;
+	}
+	
+	@Override
+	public List<String> retrieveVehicleNumbersList() {
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);	
+		String sqlVehicleList = "SELECT vehicle_number FROM vehicle_connector;";
+			
+		List<String> vehicleNumList = (List<String>)jdbcTemplate.queryForList(sqlVehicleList, String.class);
+		return vehicleNumList;
 	}
 	
 }

@@ -62,7 +62,7 @@ public class AssignVehicleDaoImpl implements AssignVehicleDao {
 		if(assgnVehicle.getRole_id().equals("1")){
 			sql = "UPDATE vehicle_connector set map_status = 'Y', role_id = ?, parent_id = ?, imei= ? where vehicle_number = ?";
 			
-			System.out.println(((AssignVehicle)loginData.get(0)).getHandler_id()+"   ----------------------------> "+((AssignVehicle)loginData.get(0)).getRole_id());
+			//System.out.println(((AssignVehicle)loginData.get(0)).getHandler_id()+"   ----------------------------> "+((AssignVehicle)loginData.get(0)).getRole_id());
 
 			 result = jdbcTemplate.update(
 					sql,

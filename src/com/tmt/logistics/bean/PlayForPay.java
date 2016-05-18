@@ -12,6 +12,7 @@ public class PlayForPay {
 	private double toAddressLatitude;
 	private double toAddressLongitude;
 	private String distance;
+	private String compAbbrv;
 	
 	public String getVehicleNumber() {
 		return vehicleNumber;
@@ -72,5 +73,11 @@ public class PlayForPay {
 	}
 	public void setImeiNumber(String imeiNumber) {
 		this.imeiNumber = imeiNumber;
+	}
+	public String getCompAbbrv() {
+		return compAbbrv;
+	}
+	public void setCompAbbrv(String compAbbrv) {
+		this.compAbbrv = compAbbrv;
 	}	
 }

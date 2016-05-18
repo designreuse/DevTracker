@@ -41,7 +41,6 @@
  <!-- declare beans -->
  <bean id="detachDao" class="com.tmt.logistics.dao.DetachDaoImpl" />
  <bean id="driverDao" class="com.tmt.logistics.dao.DriverDaoImpl" />
- <bean id="testTrackerDao" class="com.tmt.logistics.dao.TestTrackerDaoImpl" />
  <bean id="trackerDao" class="com.tmt.logistics.dao.TrackerDaoImpl" />
  <bean id="customerDao" class="com.tmt.logistics.dao.CustomerDaoImpl" />
  <bean id="trackerReportDao" class="com.tmt.logistics.dao.TrackerReportDaoImpl" />
@@ -64,13 +63,13 @@
  <bean id="dataSource"
   class="org.springframework.jdbc.datasource.DriverManagerDataSource">
   <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-  <property name="url" value="jdbc:mysql://49.50.78.232:3306/trackerdata" />
+  <property name="url" value="jdbc:mysql://localhost:3306/trackerdata" />
   <property name="username" value="root" />
-  <property name="password" value="Cmtrack123" />
+  <property name="password" value="root" />
  </bean>
    
  <bean id="myhttprequesthandler" class="com.tmt.logistics.LoginServlet">
         <property name="loginDao" ref="loginDao"/>
  </bean>
  
-</beans>
+ </beans>

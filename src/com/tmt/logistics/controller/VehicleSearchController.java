@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.tmt.common.Utils;
 import com.tmt.logistics.bean.AssignVehicle;
 import com.tmt.logistics.bean.Coordinates;
 import com.tmt.logistics.bean.ResultBean;
@@ -67,9 +68,14 @@ AgentDao agentDao;
 			 resultMsg.setPageUrl("/DevTracker/vehicleSearch");
 			 return new ModelAndView("ResultPage", "resultMsg", resultMsg);
 			}else{
-				JSONArray jObj = vehicleSearchDao.retrieveVehicleData(imeiNumber, vehicleDetails.getVehicleNumber());					
+				//JSONArray jObj = vehicleSearchDao.retrieveVehicleData(imeiNumber, vehicleDetails.getVehicleNumber());	
+				String currentDate = Utils.getCombinedDateTime();
+				String yesterDate = Utils.getYesterdayDateString()+Utils.SEPARATOR+Utils.getSysTime();
+				JSONObject jObj = (JSONObject)vehicleSearchDao.retrievePast24hrData(imeiNumber, vehicleDetails.getVehicleNumber(), currentDate, yesterDate);	
+				JSONArray jsonArray = (JSONArray) jObj.get("arrayList");
+				
 				map = new HashMap<String, List<?>>();
-				map.put("coordinates", jObj);
+				map.put("coordinates", jsonArray);
 				//System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@ "+jObj);
 				List<String> vehicleNumList = vehicleSearchDao.retrieveVehicleNumbersList(vehicleDetails);
 				//System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$ "+vehicleNumList);				

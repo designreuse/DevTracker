@@ -35,7 +35,6 @@
     	 
         $('#login_btn').on('click', function() {
     	 
-    	 
 	   var uname = $("#login_username").val(); 
 	   var passwrd = $("#password").val(); 
 	  
@@ -62,11 +61,13 @@
    }); 
     	    	 
     	 $("#locateVehicle").on('click', function(){
+    		var compAbbrv = $("#compAbbrv").val().toUpperCase();
     		var invoice = $("#searchInvoice").val(); 
     		 
-    		var dataString = "searchInvoice="+invoice;
-    		  if(invoice != ''){ 
-    			  document.location.href='/DevTracker/trackInMap?searchInvoice='+invoice;
+    		//var dataString = "searchInvoice="+compAbbrv+"-"+invoice;
+    		//alert(dataString);
+    		  if(invoice != '' || compAbbrv != ''){ 
+    			  document.location.href='/DevTracker/trackInMap?searchInvoice='+compAbbrv+"-"+invoice;
     			 /*  $.ajax({
     			        type: "POST",
     			        url: "trackInMap",
@@ -144,8 +145,11 @@
                            
                             <div class="signup-form">
                                 <form>
-                                    <div class="form-group">
-                                        <input class="form-control capsText" type="text" id="searchInvoice" placeholder="Search Invoice Number" onKeyPress="return numerical(this, event)">
+                                    <div class="form-group input-group">
+                                    <input type="text" class="form-control capsText" id="compAbbrv" placeholder="Company Title" />
+            						<span class="input-group-addon" style="border-left: 0; border-right: 0; ">-</span>
+                					<input type="text" class="form-control capsText" id="searchInvoice" placeholder="Invoice Number" onKeyPress="return numerical(this, event)"/>
+            	
                                     </div>									
                                     <div class="form-group">
                                         <button type="button" class="btn btn-block btn-info" id="locateVehicle">Locate Vehicle</button>

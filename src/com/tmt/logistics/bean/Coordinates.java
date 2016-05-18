@@ -1,5 +1,9 @@
 package com.tmt.logistics.bean;
 
+
+
+import java.util.List;
+
 public class Coordinates {
 	
 	private String vehicleNumber;
@@ -10,6 +14,15 @@ public class Coordinates {
 	private String datet;
 	private String time;
 	private String address;
+	private String vehicle_number;
+	
+	public Coordinates(){
+		
+	}
+	
+	Coordinates(String address){
+		this.address = address;
+	}
 	
 	public String getVehicleNumber() {
 		return vehicleNumber;
@@ -59,6 +72,10 @@ public class Coordinates {
 	public void setDatet(String datet) {
 		this.datet = datet;
 	}
-
-	
+	public String getVehicle_number() {
+		return vehicle_number;
+	}
+	public void setVehicle_number(String vehicle_number) {
+		this.vehicle_number = vehicle_number;
+	}
 }
